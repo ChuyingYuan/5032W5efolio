@@ -1,0 +1,13 @@
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Allow read and write access to all users (no authentication required) for the 'books' collection
+    match /books/{bookId} {
+      allow read, write: if true; // Allows anyone to read/write to the 'books' collection
+    }
+    
+    // Allow read and write access to authenticated users for the 'user' collection
+    match /user/{userId} {
+      allow read, write: if request.auth != null;
+    }
+  }
+}
